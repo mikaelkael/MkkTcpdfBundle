@@ -1,0 +1,6 @@
+framework:
+    secret: 'test'
+
+mkk_tcpdf:
+    tcpdf:
+        k_path_url_cache: '/tmp/mkk_tcpdf'
