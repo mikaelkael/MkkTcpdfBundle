@@ -1,7 +1,12 @@
 services:
-    mkk_tcpdf.tcpdf:
-        class: Mkk\TcpdfBundle\Service\TcpdfService
-        public: true
+    _defaults:
+        public: false
+
+    Mkk\TcpdfBundle\Service\TcpdfService:
         arguments:
             - "@service_container"
             - "%mkk_tcpdf.class%"
+
+    mkk_tcpdf.tcpdf:
+        alias: Mkk\TcpdfBundle\Service\TcpdfService
+        public: true
