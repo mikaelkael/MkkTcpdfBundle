@@ -7,6 +7,7 @@ php:
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
 
 matrix:
   include:
@@ -14,12 +15,12 @@ matrix:
       env: SYMFONY_VERSION='2.7.*'
     - php: 5.6
       env: SYMFONY_VERSION='2.8.*'
-    - php: 7.0
-      env: SYMFONY_VERSION='3.3.*'
     - php: 7.1
-      env: DEPENDENCIES='dev' SYMFONY_VERSION='3.4.*@dev'
+      env: SYMFONY_VERSION='3.4.*'
     - php: 7.1
-      env: DEPENDENCIES='dev' SYMFONY_VERSION='4.0.*'
+      env: SYMFONY_VERSION='4.0.*'
+    - php: 7.1
+      env: DEPENDENCIES='dev' SYMFONY_VERSION='4.1.*@dev'
   fast_finish: true
 
 before_script:
