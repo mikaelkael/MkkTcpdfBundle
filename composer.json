@@ -13,11 +13,11 @@
   ],
   "require": {
     "php": ">=5.5.9",
-    "symfony/framework-bundle": "~2.7|~3.0|~4.0",
+    "symfony/framework-bundle": "~3.4|~4.0",
     "tecnickcom/tcpdf": "6.2.*"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.8.35|~5.4.3|~6.4",
+    "phpunit/phpunit": "~5.4.3|~6.4",
     "symfony/yaml": "^3.3|^4.0"
   },
   "autoload": {
