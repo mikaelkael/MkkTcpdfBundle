@@ -13,15 +13,15 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('mkk_tcpdf');
-        $rootNode = method_exists(TreeBuilder::class, 'getRootNode') ? $treeBuilder->getRootNode() : $treeBuilder->root('mkk_tcpdf');;
+        $rootNode = method_exists(TreeBuilder::class, 'getRootNode') ? $treeBuilder->getRootNode() : $treeBuilder->root('mkk_tcpdf');
 
         $rootNode
-            ->children()
-                ->scalarNode('file')->defaultValue('%kernel.project_dir%/vendor/tecnickcom/tcpdf/tcpdf.php')->end()
-                ->scalarNode('class')->defaultValue('TCPDF')->end()
-            ->end()
-            ->children()
-                ->arrayNode('tcpdf')
+                ->children()
+                    ->scalarNode('file')->defaultValue('%kernel.project_dir%/vendor/tecnickcom/tcpdf/tcpdf.php')->end()
+                    ->scalarNode('class')->defaultValue('TCPDF')->end()
+                ->end()
+                ->children()
+                    ->arrayNode('tcpdf')
                     ->addDefaultsIfNotSet()
                     ->children()
                         // Core configuration values
@@ -35,7 +35,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('k_blank_image')->defaultValue('%kernel.project_dir%/vendor/tecnickcom/tcpdf/examples/images/_blank.png')->end()
                         ->scalarNode('k_cell_height_ratio')->defaultValue(1.25)->end()
                         ->scalarNode('k_title_magnification')->defaultValue(1.3)->end()
-                        ->scalarNode('k_small_ratio')->defaultValue(2/3)->end()
+                        ->scalarNode('k_small_ratio')->defaultValue(2 / 3)->end()
                         ->scalarNode('k_thai_topchars')->defaultTrue()->end()
                         ->scalarNode('k_tcpdf_calls_in_html')->defaultFalse()->end()
                         ->scalarNode('k_tcpdf_external_config')->defaultTrue()->end()
@@ -67,6 +67,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
         ;
+
         return $treeBuilder;
     }
 }

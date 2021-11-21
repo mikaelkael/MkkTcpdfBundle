@@ -4,3 +4,4 @@ phpunit.xml
 Tests/Fixtures/cache
 .idea/*
 .phpunit.result.cache
+.php-cs-fixer.cache
