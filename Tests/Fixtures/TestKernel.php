@@ -2,6 +2,8 @@
 
 namespace Mkk\TcpdfBundle\Tests\Fixtures;
 
+use Mkk\TcpdfBundle\MkkTcpdfBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -10,12 +12,9 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class TestKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): array
     {
-        return array(
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Mkk\TcpdfBundle\MkkTcpdfBundle()
-        );
+        return [new FrameworkBundle(), new MkkTcpdfBundle()];
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
@@ -23,7 +22,7 @@ class TestKernel extends Kernel
         $loader->load(__DIR__.'/config/config.yml');
     }
 
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return $this->getProjectDir().'/Tests/Fixtures/cache/'.$this->environment;
     }
