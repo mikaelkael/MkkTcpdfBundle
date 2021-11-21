@@ -2,3 +2,5 @@ composer.lock
 vendor/*
 phpunit.xml
 Tests/Fixtures/cache
+.idea/*
+.phpunit.result.cache
