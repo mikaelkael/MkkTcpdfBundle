@@ -63,10 +63,8 @@ class TcpdfService
      * Creates a new instance of TCPDF/the class name to use as supplied
      * Any arguments passed here will be passed directly
      * to the TCPDF class as constructor arguments.
-     *
-     * @return TCPDF
      */
-    public function create()
+    public function create(): TCPDF
     {
         $rc = new ReflectionClass($this->className);
 
