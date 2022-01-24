@@ -1,0 +1,74 @@
+name: Build
+
+on:
+    push: ~
+    pull_request: ~
+
+jobs:
+    phpstan:
+        runs-on: ubuntu-latest
+        name: PHPStan
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: PHPStan
+              uses: docker://oskarstark/phpstan-ga
+              env:
+                  REQUIRE_DEV: true
+                  CHECK_PLATFORM_REQUIREMENTS: false
+              with:
+                  args: analyse
+    cs-fixer:
+        runs-on: ubuntu-20.04
+        name: PHP-CS-Fixer
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Fix CS
+              uses: docker://oskarstark/php-cs-fixer-ga          
+    tests:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          php:
+            - '7.3'
+            - '7.4'
+            - '8.0'
+          include:
+            - description: 'Symfony 5.3'
+              php: '7.3'
+              symfony: 5.3.*
+              composer_option: '--prefer-lowest'
+            - description: 'Symfony 5.4'
+              php: '7.4'
+              symfony: 5.4.*
+            - description: 'Symfony 6.0'
+              php: '8.0'
+              symfony: 6.0.*-dev
+      name: PHP ${{ matrix.php }} tests (${{ matrix.description }})
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Cache Composer packages
+          id: composer-cache
+          uses: actions/cache@v2
+          with:
+            path: ~/.composer/cache/files
+            key: ${{ matrix.php }}-${{ matrix.symfony }}-${{ matrix.composer_option }} 
+        - name: Install Dependencies
+          run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        - name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: ${{ matrix.php }}
+            extensions: gd
+        - name: Composer
+          run: |
+              sed -ri 's/"symfony\/(.+)": "(.+)"/"symfony\/\1": "'${{ matrix.symfony }}'"/' composer.json;
+          if: contains(matrix.symfony, '-dev')
+        - run: composer config minimum-stability dev
+        - run: composer config prefer-stable true
+          if: matrix.symfony
+        - run: composer update --no-interaction --no-progress --ansi ${{ matrix.composer_option }}
+        - name: Execute tests (Unit and Feature tests) via PHPUnit
+          run: vendor/bin/phpunit

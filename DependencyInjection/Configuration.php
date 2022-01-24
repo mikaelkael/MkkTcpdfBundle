@@ -5,14 +5,13 @@ namespace Mkk\TcpdfBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('mkk_tcpdf');
-        $rootNode = method_exists(TreeBuilder::class, 'getRootNode') ? $treeBuilder->getRootNode() : $treeBuilder->root('mkk_tcpdf');
 
-        $rootNode
+        $treeBuilder->getRootNode()
                 ->children()
                     ->scalarNode('file')->defaultValue('%kernel.project_dir%/vendor/tecnickcom/tcpdf/tcpdf.php')->end()
                     ->scalarNode('class')->defaultValue('TCPDF')->end()

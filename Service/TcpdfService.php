@@ -3,37 +3,33 @@
 namespace Mkk\TcpdfBundle\Service;
 
 use ReflectionClass;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use TCPDF;
 
-class TcpdfService
+final class TcpdfService
 {
-    use ContainerAwareTrait;
-
     /**
      * @var string
      */
-    protected $className;
+    private $className;
 
     /**
      * Class constructor.
      *
      * @param string $className The class name to use. Default is TCPDF. Must be based on TCPDF
      */
-    public function __construct(ContainerInterface $container, $className)
+    public function __construct(ParameterBagInterface $params, string $className)
     {
-        $this->setContainer($container);
-        $config = $this->container->getParameter('mkk_tcpdf.tcpdf');
+        $config = $params->get('mkk_tcpdf.tcpdf');
         if ($config['k_tcpdf_external_config']) {
             foreach ($config as $k => $v) {
-                $constKey = strtoupper($k);
+                $constKey = \strtoupper($k);
                 // All K_ constants are required
-                if (preg_match('/^(K_|PDF_)/', $constKey)) {
+                if (\preg_match('/^(K_|PDF_)/', $constKey)) {
                     if (!\defined($constKey)) {
-                        $value = $this->container->getParameterBag()->resolveValue($v);
-                        if (('k_path_cache' === $k || 'k_path_url_cache' === $k) && !is_dir($value)) {
+                        $value = $params->resolveValue($v);
+                        if (('k_path_cache' === $k || 'k_path_url_cache' === $k) && !\is_dir($value)) {
                             $this->createDir($value);
                         }
                         \define($constKey, $value);
@@ -47,15 +43,13 @@ class TcpdfService
     /**
      * Create a directory.
      *
-     * @param string $filePath
-     *
      * @throws \RuntimeException
      */
-    private function createDir($filePath)
+    private function createDir(string $filePath): void
     {
         $filesystem = new Filesystem();
         if (false === $filesystem->mkdir($filePath)) {
-            throw new \RuntimeException(sprintf('Could not create directory %s', $filePath));
+            throw new \RuntimeException(\sprintf('Could not create directory %s', $filePath));
         }
     }
 
@@ -74,11 +68,9 @@ class TcpdfService
     /**
      * Sets the class name to use for instantiation.
      *
-     * @param $className
-     *
      * @throws \LogicException if the class is not, or does not inherit from, TCPDF
      */
-    public function setClassName($className)
+    public function setClassName(string $className): void
     {
         $rc = new ReflectionClass($className);
         if (!$rc->isSubclassOf('TCPDF') && 'TCPDF' !== $rc->getName()) {

@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class TcpdfServiceTest extends WebTestCase
 {
-    public function testService()
+    public function testService(): void
     {
         $kernel = static::createKernel();
         $kernel->boot();
@@ -22,7 +22,7 @@ final class TcpdfServiceTest extends WebTestCase
         static::assertSame('/tmp/mkk_tcpdf', \constant('K_PATH_URL_CACHE'));
     }
 
-    public function testServiceCreation()
+    public function testServiceCreation(): void
     {
         $kernel = static::createKernel();
         $kernel->boot();

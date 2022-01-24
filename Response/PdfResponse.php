@@ -5,7 +5,7 @@ namespace Mkk\TcpdfBundle\Response;
 use Symfony\Component\HttpFoundation\Response;
 use TCPDF;
 
-class PdfResponse extends Response
+final class PdfResponse extends Response
 {
     /**
      * @param mixed $data    The response data

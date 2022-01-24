@@ -4,7 +4,7 @@ services:
 
     Mkk\TcpdfBundle\Service\TcpdfService:
         arguments:
-            - "@service_container"
+            - "@parameter_bag"
             - "%mkk_tcpdf.class%"
 
     mkk_tcpdf.tcpdf:

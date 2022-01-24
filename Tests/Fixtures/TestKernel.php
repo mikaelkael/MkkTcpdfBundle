@@ -10,14 +10,14 @@ use Symfony\Component\HttpKernel\Kernel;
 /**
  * Used for functional tests.
  */
-class TestKernel extends Kernel
+final class TestKernel extends Kernel
 {
     public function registerBundles(): array
     {
         return [new FrameworkBundle(), new MkkTcpdfBundle()];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__.'/config/config.yml');
     }
@@ -28,4 +28,4 @@ class TestKernel extends Kernel
     }
 }
 
-class_alias('Mkk\TcpdfBundle\Tests\Fixtures\TestKernel', 'TestKernel');
+\class_alias('Mkk\TcpdfBundle\Tests\Fixtures\TestKernel', 'TestKernel');

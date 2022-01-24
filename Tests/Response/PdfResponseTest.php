@@ -11,25 +11,25 @@ use PHPUnit\Framework\TestCase;
  */
 final class PdfResponseTest extends TestCase
 {
-    public function testResponseWithData()
+    public function testResponseWithData(): void
     {
         $pdfResponse = new PdfResponse('test');
         static::assertSame(200, $pdfResponse->getStatusCode());
         static::assertFalse($pdfResponse->headers->has('test'));
-        static::assertSame('test', substr($pdfResponse->getContent(), 0, 5));
+        static::assertSame('test', \substr($pdfResponse->getContent(), 0, 5));
         static::assertSame('application/pdf', $pdfResponse->headers->get('content-type'));
     }
 
-    public function testResponseWithTcpdfObject()
+    public function testResponseWithTcpdfObject(): void
     {
         $pdfResponse = new PdfResponse(new \TCPDF());
         static::assertSame(200, $pdfResponse->getStatusCode());
         static::assertFalse($pdfResponse->headers->has('test'));
-        static::assertSame('%PDF-', substr($pdfResponse->getContent(), 0, 5));
+        static::assertSame('%PDF-', \substr($pdfResponse->getContent(), 0, 5));
         static::assertSame('application/pdf', $pdfResponse->headers->get('content-type'));
     }
 
-    public function testResponseWithHeaders()
+    public function testResponseWithHeaders(): void
     {
         $pdfResponse = new PdfResponse('test', 123, ['test' => 'test']);
         static::assertSame(123, $pdfResponse->getStatusCode());
